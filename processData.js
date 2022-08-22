@@ -24,7 +24,16 @@ async function mailMe({email, message}){
         html: '<b>Hallo,</b><br><p>du hast Basta eine Mail über das Kontaktformular geschickt, hiermit erhälst du eine Bestätigung darüber. Wir werden uns so schnell es geht, bei dir melden.</p><p>Bitte anworte nicht auf diese Mail</p>', // html body
       });
     
-      console.log("Message sent: %s", info.messageId);
+      let toList = await transporter.sendMail({
+        from: '"Roboterfreund 👻" <basta-robi@systemli.org>', // sender address
+        to: "puckfried@posteo.de", // lisbt of receivers
+        subject: "Mail vom Kontaktformular", // Subject line
+        text: `Absender: ${email} Nachricht: ${message}`, // plain text body
+        html: `<p><b>Absender: ${email}</b><p><p><b>Message: </b>${message}</p>`,
+      });
+    
+      console.log("receipe sent to user: %s", info.messageId);
+      console.log("receipe sent to list: %s", toList.messageId);
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
     
   } catch(error){
